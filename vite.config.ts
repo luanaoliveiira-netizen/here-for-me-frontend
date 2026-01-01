@@ -1,25 +1,27 @@
-import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
-import tailwindcss from "@tailwindcss/vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
 import { defineConfig } from "vite";
-import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import path from "path";
 
-export default defineConfig({
+// ⚠️ Plugin de DEV apenas
+import { jsxLocPlugin } from "@builder.io/vite-plugin-jsx-loc";
+
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
-    jsxLocPlugin(),
-    vitePluginManusRuntime(),
+
+    // 👉 só usa esse plugin em desenvolvimento
+    ...(mode === "development" ? [jsxLocPlugin()] : []),
   ],
+
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+      "@": path.resolve(__dirname, "src"),
     },
   },
+
   build: {
     outDir: "dist",
   },
-});
+}));
