@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build",
+    "build":"node node_modules/vite/bin/vite.js build"
+,
     "preview": "vite preview",
     "check": "tsc --noEmit",
     "format": "prettier --write ."
